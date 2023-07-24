@@ -1,6 +1,6 @@
 from django.urls import include, path
 from rest_framework import routers
-from .views import OnlineStoreUsersViewSet 
+from .viewset import OnlineStoreUsersViewSet 
 
 router = routers.SimpleRouter()
 router.register(r'users', OnlineStoreUsersViewSet)
