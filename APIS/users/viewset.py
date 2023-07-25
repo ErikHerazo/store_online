@@ -1,3 +1,4 @@
+import json
 from django.shortcuts import render
 from utils.mongo_utils import MongoCRUD
 
@@ -15,3 +16,10 @@ class OnlineStoreUsersViewSet(viewsets.ModelViewSet):
         client = MongoCRUD('Users', 'users')
         client.insertMultipleDocuments(data['data'])
         return super().create(request, *args, **kwargs)
+
+    def get_queryset(self):
+        request_data = self.request.data
+        client = MongoCRUD('Users','users')
+        cursor = client.searchDocuments(request_data)
+        list_doc = [document for document in cursor]
+        return list_doc

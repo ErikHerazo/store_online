@@ -21,20 +21,20 @@ class MongoCRUD:
         except Exception as e:
             print(e)
 
-    def insert_a_SingleDocument(self, data:dict):
+    def insertASingleDocument(self, data:dict):
         objectInfo = self.collection.insert_one(data)
         message = {
             "message": f'document {objectInfo} was inserted successfully'
         }
-        response = json.dumps(message)
-        print(response)
-        return response
+        return message
 
     def insertMultipleDocuments(self, data:list):        
         objectInfo = self.collection.insert_many(data)
         message = {
             "message": f'documents {objectInfo} was inserted successfully'
         }
-        response = json.dumps(message)
-        print(response)
-        return response
+        return message
+
+    def searchDocuments(self, data:dict):
+        cursor = self.collection.find(data, {})
+        return cursor
