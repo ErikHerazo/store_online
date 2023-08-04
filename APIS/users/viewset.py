@@ -1,4 +1,4 @@
-import json
+from django.http import JsonResponse
 from django.shortcuts import render
 from utils.mongo_utils import MongoCRUD
 
@@ -14,8 +14,20 @@ class OnlineStoreUsersViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         data = request.data
         client = MongoCRUD('Users', 'users')
-        client.insertMultipleDocuments(data['data'])
-        return super().create(request, *args, **kwargs)
+        first_element_key = next(iter(data))
+        first_element_value = data.get(first_element_key)
+        first_element_type = type(first_element_value)
+        if first_element_type == list:
+            client.insertMultipleDocuments(first_element_value)
+            response = {
+                "msg":'successful registrations',
+            }
+            return JsonResponse(response)
+        response = {
+            "msg":'successful registration',
+        }
+        client.insertASingleDocument(data)
+        return JsonResponse(response)
 
     def get_queryset(self):
         request_data = self.request.data

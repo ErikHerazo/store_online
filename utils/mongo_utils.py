@@ -1,11 +1,15 @@
-from pymongo import MongoClient
 import json
+# import secrets
+from pymongo import MongoClient
 
 class MongoCRUD:
     
     def __init__(self, database_name, collection_name):
         self.database_name = database_name
         self.collection_name = collection_name
+
+        # # secret key for mongo session
+        # self.tokens_session = secrets.token_hex(20)
 
         # connection string
         self.uri = f"mongodb+srv://erik1288:ingeniero010@cluster-online-store.ldb3l7j.mongodb.net/{self.database_name}?retryWrites=true&w=majority"
