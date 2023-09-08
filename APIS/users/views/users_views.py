@@ -2,10 +2,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.exceptions import APIException
+
+from rest_framework.renderers import TemplateHTMLRenderer
 from utils.mongo_utils import MongoCRUD
 from ..serializers import MyUserSerializer
 
-class MyUsersGenericAPIView(APIView):
+class MyUsersGenericAPIView(APIView):    
     # user creation method
     def post(self, request):
         user = request.data
@@ -29,10 +31,7 @@ class MyUsersGenericAPIView(APIView):
                         "msg":'the user was successfully registered',
                     }
                     return Response(response, status=status.HTTP_201_CREATED)  
-                return Response(serialized_user.errors, status=status.HTTP_201_CREATED)
+                return Response(serialized_user.errors, status=status.HTTP_400_BAD_REQUEST)
             except APIException as e:
-                return Response({"detail": e.get_full_details()}, status=status.HTTP_400_BAD_REQUEST)            
+                return Response({"detail": e.get_full_details()}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)            
         raise MethodNotAllowed(request.method)
-        
-    def get(self, request):
-        pass

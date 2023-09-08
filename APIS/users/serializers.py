@@ -2,7 +2,6 @@ from .models import OnlineStoreUsers
 from rest_framework import serializers
 from django.core.validators import EmailValidator
 
-
 class OnlineStoreUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = OnlineStoreUsers
